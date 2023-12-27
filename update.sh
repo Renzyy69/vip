@@ -36,7 +36,7 @@ fun_bar() {
 }
 res1() {
     wget https://raw.githubusercontent.com/Renzyy69/vip/main/limit/menu.zip
-    #wget -q -O /usr/bin/enc "https://raw.githubusercontent.com/Renzyy69/hah/main/epro/epro" ; chmod +x /usr/bin/enc
+    #wget -q -O /usr/bin/enc "https://raw.githubusercontent.com/Renzyy69/vip/main/epro/epro" ; chmod +x /usr/bin/enc
     7z e -paskykenza123 menu.zip
     unzip menu.zip
     chmod +x menu/*
