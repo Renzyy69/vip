@@ -6,8 +6,8 @@ ns_domain_cloudflare() {
 	SUB=$(tr </dev/urandom -dc a-z0-9 | head -c7)
 	SUB_DOMAIN=${SUB}."server-tunneling.tech"
 	NS_DOMAIN=${SUB_DOMAIN}
-	CF_ID=andyyuda41@gmail.com
-  CF_KEY=0d626234700bad388d6d07b49c42901445d1c
+	CF_ID=andyyuda41@gmail.com 
+        CF_KEY=0d626234700bad388d6d07b49c42901445d1c
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)
 	echo "Updating DNS NS for ${NS_DOMAIN}..."
@@ -61,8 +61,8 @@ setup_dnstt() {
 }
 ns_domain_cloudflare
 setup_dnstt
-iptables -I INPUT -p udp --dport 5400 -j ACCEPT
-iptables -t nat -I PREROUTING -p udp --dport 54 -j REDIRECT --to-ports 5400
+iptables -I INPUT -p udp --dport 5300 -j ACCEPT
+iptables -t nat -I PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5300
 iptables-save >/etc/iptables/rules.v4 >/dev/null 2>&1
 iptables-save >/etc/iptables.up.rules >/dev/null 2>&1
 netfilter-persistent save >/dev/null 2>&1
