@@ -12,16 +12,19 @@
 - DEBIAN 10
 
 ### FITUR TAMBAHAN
-- Tambah Swap 1GiB
+- Tambah Swap 3GiB
 - Pemasangan yang dinamis
 - Tuning profile pada server
 - Xray Core by [@Renzy_Store](https://github.com/askykenza)
 - Penambahan fail2ban
 - Auto block sebagian ads indo by default
 - Auto clear log per 3 menit
-- Auto deler expired
+- Auto delete expired
 - User Details Akun
-
+- Auto Kill Multilogin Into Expired
+- TRX Notifikasi
+- Bot Telegram
+- 
 ### PORT INFO
 ```
 - TROJAN WS 443
