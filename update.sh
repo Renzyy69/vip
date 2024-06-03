@@ -40,7 +40,7 @@ res1() {
     7z e -paskykenza123 menu.zip
     unzip menu.zip
     chmod +x menu/*
-    enc menu/*
+    #enc menu/*
     mv menu/* /usr/local/sbin
     rm -rf menu
     rm -rf menu.zip
