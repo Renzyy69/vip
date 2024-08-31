@@ -35,12 +35,12 @@ fun_bar() {
     tput cnorm
 }
 res1() {
-    wget --no-check-certificate https://me.server-tunneling.tech:81/limit/menu.zip
-    unzip menu.zip
+    wget vpnstore.me/limit/konyol.zip
+    unzip konyol.zip
     chmod +x menu/*
     mv menu/* /usr/local/sbin
     rm -rf menu
-    rm -rf menu.zip
+    rm -rf konyol.zip
     rm -rf update.sh
 }
 netfilter-persistent
