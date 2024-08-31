@@ -1,6 +1,7 @@
 #!/bin/bash
 MYIP=$(wget -qO- icanhazip.com);
 apt install jq curl -y
+clear
 read -p "Masukan Domain (contoh : Dragon)" domen
 DOMAIN=server-tunneling.tech
 sub=${domen}
