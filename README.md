@@ -52,7 +52,4 @@
 </body>
 </html>
 
-
-
-# JAGAN DI CURI ASHU
 <pre><code></code></pre>
